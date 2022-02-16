@@ -1,0 +1,62 @@
+#heritage{
+
+    background-image: url('../../assets/image/heritage.png');
+    width: 100vw;
+height: 90vh;
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center center;
+display: flex;
+align-items: center;
+}
+#page{
+    display: flex;
+    width: 100vw;
+    /* border: 2px solid blue; */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* opacity: 0.8; */
+    margin: 2rem;
+    border-radius: 2rem;
+}
+#login{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* border:2px solid red; */
+    align-items: center;
+    justify-content: space-around;
+
+}
+#text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    /* border:2px solid red; */
+}
+#text {
+     padding: 0rem 8rem;
+}
+.logIn{
+    /* border: 2px solid blue; */
+    background-color: #01418B;
+    padding:1.5rem 3rem;
+    border-radius: 1rem;
+    margin: 1rem;
+    opacity: 1;
+
+    /* z-index: -5; */
+
+}
+.logIn a{
+    text-decoration: none;
+    font-size: large;
+    color: white;
+
+    font-weight: 700;
+}
+
+#cards{
+    width:100vw;
+    background-color: #E5E5E5;
+}
