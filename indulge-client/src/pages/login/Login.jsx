@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ToggleButton } from "../../components/Button";
+// import { ToggleButton } from "../../components/Button";
+import "./loginSignup.css";
+import ismLogo from "../../assets/image/ISMLogo.png";
+import ismSideLogo from "../../assets/image/ismSideLogo.png";
 
 const Login = () => {
-  const [loginAs, setLoginAs] = useState("student");
-
   const emailRef = useRef();
   const passwordRef = useRef();
   const { type } = useParams();
@@ -41,40 +42,87 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <Link to="/">Home</Link>
-
-      <h1>Login as {type}</h1>
-      {/* HOC toggle btn  */}
-
-      <form id="login-form" onSubmit={handleLoginIn}>
-        <div>{error ? error : ""}</div>
-        <div className="label-input-group">
-          <label htmlFor="user-email">Email</label>
-          <input
-            ref={emailRef}
-            type="email"
-            name="emai"
-            id="user-email"
-            required
-          />
+      <div className="side-login-form">
+        <div className="login-form-container">
+          <img src={ismLogo} height="120rem" alt="" />
+          <h1> {type.toUpperCase()} SIGN IN</h1>
+          {/* HOC toggle btn  */}
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              // alignItems: "center",
+            }}
+            className="login-form"
+            onSubmit={handleLoginIn}
+          >
+            <div>{error ? error : ""}</div>
+            <div className="label-input-group">
+              <input
+                placeholder="Email Address"
+                ref={emailRef}
+                type="email"
+                name="emai"
+                id="user-email"
+                required
+              />
+            </div>
+            <div className="label-input-group">
+              <input
+                placeholder="Password"
+                ref={passwordRef}
+                type="password"
+                name="password"
+                id="user-password"
+                autoComplete="on"
+                required
+              />
+            </div>
+            <div
+              style={{
+                // border: "2px solid red",
+                width: "100%",
+                display: "flex",
+                margin: "1rem 0",
+                alignItems: "center",
+              }}
+            >
+              <button
+                style={{
+                  fontSize: "1.3rem",
+                  padding: "0.6rem 3rem",
+                  margin: "0 1rem 0 0",
+                }}
+                disabled={loading}
+                type="submit"
+              >
+                Login
+              </button>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  fontWeight: "600",
+                  fontSize: "1.3rem",
+                }}
+                to="/forgot-password"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+          </form>
         </div>
-        <div className="label-input-group">
-          <label htmlFor="user-password">Password</label>
-          <input
-            ref={passwordRef}
-            type="password"
-            name="password"
-            id="user-password"
-            autoComplete="on"
-            required
-          />
-        </div>
-        <input disabled={loading} type="submit" />
-      </form>
-      <div>
-        <p>Don't have account? Create An Account </p>
-        <Link to={`/signup/${type}`}>Signup as {type}</Link>
+        {type !== "admin" && (
+          <div id="new-user">
+            New user?
+            <Link to={`/signup/${type}`}>Sign Up </Link>
+          </div>
+        )}
+      </div>
+      <div className="login-footer-logo">
+        <img height={120} src={ismLogo} alt="" />
+        <img height={80} src={ismSideLogo} alt="" />
       </div>
     </div>
   );

@@ -1,0 +1,58 @@
+.login-container {
+  /* border: 2px solid red; */
+  width: 100vw;
+  height: 100vh;
+  background: url(https://www.pagalguy.com/wp-content/uploads/2018/10/75DA0BC60B3C30AB.jpg);
+  /* filter: brightness(90%); */
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  position: fixed;
+  /* z-index: -8; */
+}
+
+.login-footer-logo {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+  z-index: -1;
+}
+.side-login-form {
+  /* border: 2px solid red; */
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#new-user {
+  background-color: white;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-weight: 600;
+}
+#new-user a {
+  margin: 0 1rem;
+}
+.login-form-container {
+  background-color: white;
+  width: fit-content;
+
+  padding: 4rem;
+  /* border: 2px solid red; */
+  border-radius: 2rem;
+}
+
+.login-form input {
+  width: 15em;
+  /* border: 2px solid rebeccapurple; */
+  margin: 0.2rem 0;
+  /* height: 2rem; */
+  font-size: 1.5rem;
+  padding: 10px;
+}
