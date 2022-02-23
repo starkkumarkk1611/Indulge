@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
-import heritagebuilding from "../../assets/image/heritage.png";
 import "./Home.css";
 
 const Home = () => {
@@ -20,13 +19,13 @@ const Home = () => {
           </div>
           <div id="login">
             <div className="logIn" id="login-student">
-              <Link to="/login/student">Login As Student</Link>
+              <Link to="/auth/login/student">Login As Student</Link>
             </div>
-            <div className="logIn" id="login-recuiter">
-              <Link to="/login/recuiter">Login As Recuiter</Link>
+            <div className="logIn" id="login-recruiter">
+              <Link to="/auth/login/recruiter">Login As Recruiter</Link>
             </div>
             <div className="logIn" id="login-admin">
-              <Link to="/login/admin">Login As Admin</Link>
+              <Link to="/auth/login/admin">Login As Admin</Link>
             </div>
           </div>
         </div>

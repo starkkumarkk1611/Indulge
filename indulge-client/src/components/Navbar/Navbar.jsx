@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import ismLogo from '../../assets/image/ISMLogo.png'
-import './Navbar.css'
+import ismLogo from "../../assets/image/ISMLogo.png";
+import "./Navbar.css";
 
 const Navbar = () => {
   return (
@@ -9,9 +9,17 @@ const Navbar = () => {
       <div id="nav-logo-container">
         <div id="main-logo">
           <img height="85px" src={ismLogo} alt="" />
-          <div style={{ margin: "0.6rem", display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              margin: "0.6rem",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <h2 style={{ margin: "0" }}>CDC, IIT(ISM) DHANBAD</h2>
-            <p style={{ fontSize: "1.2rem", margin: "0" }}>Legacy that inspires the future</p>
+            <p style={{ fontSize: "1.2rem", margin: "0" }}>
+              Legacy that inspires the future
+            </p>
           </div>
         </div>
       </div>
@@ -26,7 +34,7 @@ const Navbar = () => {
           <NavLink to="/about-us">ABOUT US</NavLink>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

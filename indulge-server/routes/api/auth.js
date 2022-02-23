@@ -1,36 +1,60 @@
 const express = require('express');
 const router = express.Router();
-// const User = require('../model/User');
+const User = require('../../model/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const sgMail = require('@sendgrid/mail')
 
 
-const { emailValidation } = require('../../validation');
+
+
+const { confirmEmailValidation, registrationValidation } = require('../../validation');
 const { sendMail } = require('../../mail_helper')
-// const { createTokens, refreshAuth, verifyXXtoken } = require('../tokenHelper');
+const { verifyRegisterToken } = require('../../tokenHelper');
 
 
-router.post('/verify-email', async (req, res, next) => {
-    // console.log(req.body);
-    const { value: body, error } = emailValidation(req.body);
+router.post('/send-confirm-mail', async (req, res, next) => {
+    console.log(req.body);
+
+
+    const { value: body, error } = confirmEmailValidation(req.body);
     if (error) return res.status(400).send({ status: "Fail", message: "Validation Error: " + error.details[0].message });
-    // console.log(email);
-    const emailToken = jwt.sign(
-        {
-            email: body.email
 
-        }, process.env.EMAIL_TOKEN_SECRET,
-        {
-            expiresIn: '10m',
-        }
-    );
-    // console.log(emailToken)
+    const emailExist = await User.findOne({ email: body.email });
+    if (emailExist) return res.status(400).send({ status: "Fail", message: "email alredy exist!" });
+    var emailToken;
 
-    const url = `${process.env.CLIENT_ADDRESS}/verify-email-token/${emailToken}`;
-    ///send email here
+    switch (body.type) {
+        case "student":
+            emailToken = jwt.sign(
+                {
+                    email: body.email
+
+                }, process.env.STUDENT_EMAIL_VERIFY_TOKEN_SECRET,
+                {
+                    expiresIn: '10m',
+                }
+            );
+
+            break;
+        case "recruiter":
+            emailToken = jwt.sign(
+                {
+                    email: body.email
+
+                }, process.env.RECRUITER_EMAIL_VERIFY_TOKEN_SECRET,
+                {
+                    expiresIn: '1d',
+                }
+            );
+            break;
+
+        default:
+            break;
+    }
+    const url = `${process.env.CLIENT_ADDRESS}/auth/${body.type}/verify/${emailToken}`;
+
     const textmsg = `Hi, ${body.email} Click on the given link to confirm your email ${url}`;
-    // console.log(textmsg);
+
 
     const htmlmsg = `<div>
                         <h1>
@@ -40,67 +64,83 @@ router.post('/verify-email', async (req, res, next) => {
                             Link is valid for only 24 hours <a href=${url}>Click here to verify your email</a>
                         </h1>
                     </div>`;
+
     sendMail({ to_email: body.email, subject_email: "Verify Your Email", text_email: textmsg, html_email: htmlmsg }).then(() => {
         res.send({ status: "Success", message: `Verification Link sent to ${body.email} click on the link sent to your Email to verify` })
     }).catch((error) => {
         res.status(401).send({ status: "Fail", error: error, message: "We are not able to send Email" });
     });
-
 });
 
 
-// //Register with userName Password
-// router.post('/register', async (req, res, next) => {
-//     try {
-//         //user validation
-//         console.log(req.body);
-//         const { value: user, error } = registrationValidation(req.body);
-//         if (error) return res.status(400).send({ status: "Fail", message: "Validation Error: " + error.details[0].message });
-
-//         //validating duplicate data
-//         const usernameExist = await User.findOne({ username: user.username });
-//         if (usernameExist) return res.status(400).send({ status: "Fail", message: "username alredy exist!" });
-
-//         const emailExist = await User.findOne({ email: user.email });
-//         if (emailExist) return res.status(400).send({ status: "Fail", message: "email alredy exist!" });
-
-//         //hashing password
-//         const salt = await bcrypt.genSalt(10);
-//         const hashedPassword = await bcrypt.hash(user.password, salt);
-
-//         const userTosave = new User({
-//             username: user.username,
-//             email: user.email,
-//             password: hashedPassword
-//         });
-//         const savedUser = await userTosave.save();
-
-//         res.send({ status: "Pass", payload: { user: { _id: savedUser._id, email: savedUser.email, username: savedUser.username, isVerified: savedUser.isVerified } }, message: `You have sucessfully Registered` });
-
-//     } catch (error) {
-
-//         res.status(401).send({ details: "Fail", message: 'Something wrong happened from our side plz mail us', error: error });
-//     }
-
-// });
+router.post('/verify-mail', async (req, res, next) => {
+    console.log(req.body);
+    const { type, token } = req.body;
 
 
-// router.get('/confirmation/:token', async (req, res, next) => {
-//     console.log(req.params.token);
-//     try {
-//         const { id } = jwt.verify(req.params.token, process.env.EMAIL_TOKEN_SECRET);
+    var secret;
+    if (type === 'student')
+        secret = process.env.STUDENT_EMAIL_VERIFY_TOKEN_SECRET;
+    else
+        secret = process.env.RECRUITER_EMAIL_VERIFY_TOKEN_SECRET;
 
-//         const result = await User.findByIdAndUpdate(id, { isVerified: true }, { new: true });
+    try {
+        const { email } = jwt.verify(token, secret);
 
-//         if (!result) return res.status(400).send({ message: "Something Went Wrong" });
+        const emailExist = await User.findOne({ email: email });
+        if (emailExist) return res.status(400).send({ status: "Fail", message: "email alredy exist!" });
+        const registerToken = jwt.sign(
+            {
+                email: email
 
-//         res.render('taskStatus', { title: 'Email Verified', message: "Your Email Has Been Verified" });
+            }, process.env.REGISTER_TOKEN,
+            {
+                expiresIn: '1d',
+            }
+        );
+        res.send({ status: "Success", payload: { email, registerToken }, message: "Your Email Has been Verified" });
+    } catch {
+        console.log("not verifes")
+        res.status(401).send({ status: "Fail", message: "Email Not verified" });
+    }
+});
 
-//     } catch (error) {
+router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
+    const type = req.params.type;
+    if (!(type === 'student' || type === 'recruiter')) return res.status(404).send({ status: "Fail", message: "Not Found" });
+    try {
+        //user validation
+        console.log(req.body);
+        const { value: user, error } = registrationValidation(req.body);
+        console.log("sdfgd");
+        if (error) return res.status(400).send({ status: "Fail", message: "Validation Error: " + error.details[0].message });
 
-//         res.status(400).send({ message: "Something Went Wrong" });
-//     }
-// });
+        const emailExist = await User.findOne({ email: user.email });
+        if (emailExist) return res.status(400).send({ status: "Fail", message: "email alredy exist!" });
+        console.log(user);
+        //hashing password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(user.password, salt);
+
+        const userTosave = new User({
+            name: user.name,
+            email: user.email,
+            type: user.type,
+            company: user.company,
+            password: hashedPassword
+        });
+        const savedUser = await userTosave.save();
+        // request and body js se set kr k login pe redirect kr sakta  hun
+        res.send({ status: "Pass", payload: { user: { _id: savedUser._id, email: savedUser.email, username: savedUser.username, isVerified: savedUser.isVerified } }, message: `You have sucessfully Registered` });
+
+    } catch (error) {
+        console.log(error);
+        res.status(401).send({ status: "Fail", message: 'Something wrong happened from our side plz mail us', error: error });
+    }
+});
+
+
+
 
 // router.post('/change-email', async (req, res, next) => {
 //     console.log(req.body);
@@ -253,7 +293,7 @@ router.post('/verify-email', async (req, res, next) => {
 //     res.header('refresh-token', refreshToken);
 //     res.header('auth-token', token).send({ user: { _id: userInDb._id, email: userInDb.email, username: userInDb.username, isVerified: userInDb.isVerified }, token: token });
 
-// });
+// 
 
 // router.get('/logout', verifyXXtoken, (req, res, next) => {
 //     try {
