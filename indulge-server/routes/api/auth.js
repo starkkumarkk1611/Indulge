@@ -1,21 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../model/User');
+const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
-
-
-const { confirmEmailValidation, registrationValidation } = require('../../validation');
-const { sendMail } = require('../../mail_helper')
-const { verifyRegisterToken } = require('../../tokenHelper');
+const { confirmEmailValidation, registrationValidation, loginValidation } = require('../../helpers/validationHelper');
+const { sendMail } = require('../../helpers/mailHelper')
+const { verifyRegisterToken, createAuthTokens, verifyXXtoken } = require('../../helpers/tokenHelper');
 
 
 router.post('/send-confirm-mail', async (req, res, next) => {
     console.log(req.body);
-
-
     const { value: body, error } = confirmEmailValidation(req.body);
     if (error) return res.status(400).send({ status: "Fail", message: "Validation Error: " + error.details[0].message });
 
@@ -31,7 +26,7 @@ router.post('/send-confirm-mail', async (req, res, next) => {
 
                 }, process.env.STUDENT_EMAIL_VERIFY_TOKEN_SECRET,
                 {
-                    expiresIn: '10m',
+                    expiresIn: '1d',
                 }
             );
 
@@ -51,7 +46,7 @@ router.post('/send-confirm-mail', async (req, res, next) => {
         default:
             break;
     }
-    const url = `${process.env.CLIENT_ADDRESS}/auth/${body.type}/verify/${emailToken}`;
+    const url = `${process.env.CLIENT_ADDRESS2}/auth/${body.type}/verify/${emailToken}`;
 
     const textmsg = `Hi, ${body.email} Click on the given link to confirm your email ${url}`;
 
@@ -76,8 +71,7 @@ router.post('/send-confirm-mail', async (req, res, next) => {
 router.post('/verify-mail', async (req, res, next) => {
     console.log(req.body);
     const { type, token } = req.body;
-
-
+    if (!(type === 'student' || type === 'recruiter')) return res.status(404).send({ status: "Fail", message: "Not Found" });
     var secret;
     if (type === 'student')
         secret = process.env.STUDENT_EMAIL_VERIFY_TOKEN_SECRET;
@@ -139,6 +133,86 @@ router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
     }
 });
 
+//login with email password or username password
+router.post('/login/:type', async (req, res, next) => {
+    try {
+
+        const type = req.params.type;
+        if (!(type === 'student' || type === 'recruiter')) return res.status(404).send({ status: "Fail", message: "Not Found" });
+        //user validation
+        const { value: user, error } = loginValidation(req.body);
+        if (error) return res.status(400).send({ message: error.details[0].message });
+
+        //if username or email not mathes with database and password verification
+        var userInDb = await User.findOne({ email: user.email, type: user.type });
+        if (!userInDb) return res.status(400).send({ message: "username or password is wrong" });
+
+        if (userInDb) var validPass = await bcrypt.compare(user.password, userInDb.password);
+        if (!validPass) return res.status(400).send({ message: "username or password is wrong" });
+
+        const [token, refreshToken] = await createAuthTokens({ user: { _id: userInDb._id, email: userInDb.email, name: userInDb.name, company: userInDb.company }, secret: process.env.ACCESS_TOKEN_SECRET, secret2: process.env.REFRESH_TOKEN_SECRET + userInDb.password });
+
+        res.cookie('refresh_token', refreshToken, {
+            maxAge: 86_400_000,
+            httpOnly: true,
+        });
+
+        res.header('refresh-token', refreshToken);
+        res.header('auth-token', token).send({ status: "Success", payload: { user: { _id: userInDb._id, type: userInDb.type, email: userInDb.email, company: userInDb.company, accessToken: token, refreshToken: refreshToken } } });
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(401).send({ status: "Fail", message: "Unauthorise Access" });
+    }
+});
+
+router.get('/renew-access-token', async (req, res, next) => {
+    try {
+        var refreshToken = req.cookies.refresh_token;
+        console.log(refreshToken);
+        if (!refreshToken) return res.status(401).send({ status: "Fail", message: "Unauthoruze acecsss - 1" });
+        const { _id } = jwt.decode(refreshToken);
+        console.log(_id, "dfdfdf");
+
+        if (!_id) return res.status(401).send({ status: "Fail", message: "Unauthoruze acecsss" });
+
+        const userInDb = await User.findById(_id);
+        if (!userInDb) return res.status(401).send({ status: "Fail", message: "Unauthoruze acecsss" });
+        console.log(userInDb)
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET + userInDb.password);
+        console.log("sfgsfd");
+        const [newToken, newRefreshToken] = await createAuthTokens({
+            user: {
+                _id: userInDb._id, email: userInDb.email, name: userInDb.name
+            }
+            , secret: process.env.ACCESS_TOKEN_SECRET, secret2: process.env.REFRESH_TOKEN_SECRET + userInDb.password
+        });
+        console.log(newToken, newRefreshToken);
+        res.cookie('refresh_token', newRefreshToken, {
+            maxAge: 86_400_000,
+            httpOnly: true,
+        });
+
+        res.header('refresh-token', newRefreshToken);
+        res.header('auth-token', newToken).send({ status: "Success", payload: { user: { _id: userInDb._id, type: userInDb.type, email: userInDb.email, company: userInDb.company, accessToken: newToken, refreshToken: newRefreshToken } } });
+    }
+    catch (error) {
+        console.log(error)
+        res.status(401).send({ status: "Fail", message: "Unauthorise Access 0" });
+    }
+
+})
+
+router.get('/logout', verifyXXtoken, (req, res, next) => {
+    try {
+        res.clearCookie('refresh_token');
+        console.log("loged out");
+        res.send({ message: "LogedOut Sucessfully" });
+    } catch (error) {
+        res.send(400).send(error);
+    }
+})
 
 
 
@@ -266,44 +340,8 @@ router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
 //     }
 // });
 
-// router.get('/refreshtoken', refreshAuth);
 
-// //login with email password or username password
-// router.post('/login', async (req, res, next) => {
-//     //user validation
-//     const { value: user, error } = loginValidation(req.body);
-//     if (error) return res.status(400).send({ message: error.details[0].message });
 
-//     //if username or email not mathes with database and password verification
-//     var userInDb = await User.findOne({ username: user.username });
-//     if (!userInDb) return res.status(400).send({ message: "username or password is wrong" });
-
-//     if (userInDb) var validPass = await bcrypt.compare(user.password, userInDb.password);
-//     if (!validPass) return res.status(400).send({ message: "username or password is wrong" });
-
-//     if (!userInDb.isVerified) return res.status(400).send({ user: { _id: userInDb._id, username: userInDb.username, email: userInDb.email }, isVerified: userInDb.isVerified, message: `You have not confirmed your email address.` });
-
-//     const [token, refreshToken] = await createTokens({ user: { _id: userInDb._id, email: userInDb.email, username: userInDb.username, isVerified: userInDb.isVerified } }, process.env.ACCESS_TOKEN_SECRET, process.env.REFRESH_TOKEN_SECRET + userInDb.password);
-
-//     res.cookie('refresh_token', refreshToken, {
-//         maxAge: 86_400_000,
-//         httpOnly: true,
-//     });
-
-//     res.header('refresh-token', refreshToken);
-//     res.header('auth-token', token).send({ user: { _id: userInDb._id, email: userInDb.email, username: userInDb.username, isVerified: userInDb.isVerified }, token: token });
-
-// 
-
-// router.get('/logout', verifyXXtoken, (req, res, next) => {
-//     try {
-//         res.clearCookie('refresh_token');
-//         console.log("loged out");
-//         res.send({ logged_in: false, message: "LogedOut Sucessfully" });
-//     } catch (error) {
-//         res.send(400).send(error);
-//     }
-// })
 
 
 module.exports = router;

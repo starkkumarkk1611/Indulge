@@ -20,9 +20,21 @@ const registrationValidation = (data) => {
     });
     return userSchemeValidation.validate(data);
 }
+const loginValidation = (data) => {
+    console.log(data);
+    const userSchemeValidation = Joi.object({
+        email: Joi.string().min(6).max(50).email().required(),
+        type: Joi.string().valid('student', 'recruiter').required(),
+        password: Joi.string().min(8).max(20).regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,16}$/).required(),
+    });
+    return userSchemeValidation.validate(data);
+}
+
 
 
 module.exports.confirmEmailValidation = confirmEmailValidation;
 module.exports.registrationValidation = registrationValidation;
+module.exports.loginValidation = loginValidation;
+
 
 
