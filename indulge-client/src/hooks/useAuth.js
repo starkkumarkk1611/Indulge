@@ -1,6 +1,6 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 
-import { sendComfirmEmailApi, verifyEmailApi, registerApi, loginApi } from "../apiServices/authApi";
+import { sendComfirmEmailApi, verifyEmailApi, registerApi, loginApi, renewAccessTokenApi } from "../apiServices/authApi";
 
 
 
@@ -30,13 +30,30 @@ export const AuthProvider = ({ children }) => {
     }
     const login = ({ email, password, type }) => {
         return loginApi({ email, password, type }).then(res => {
+            console.log(res.data)
             setUser(res.data.payload.user);
             return true;
         })
     }
 
+    useEffect(() => {
+        const renewTokens = async () => {
+            try {
 
-
+                const res = await renewAccessTokenApi();
+                console.log(res.data)
+                setUser(res.data.payload.user);
+                setInterval(() => {
+                    renewTokens();
+                }, 1000 * 60 * 10);
+            } catch (error) {
+                console.log(error);
+                setUser(null);
+            }
+            setIsAuthenticating(false);
+        }
+        renewTokens();
+    }, [])
 
     const value = {
         sendConfirmEmail,
@@ -51,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={value} >
             {/* after setting refresh token */}
-            {/* {!isAuthenticating && children}  */} {children}
+            {!isAuthenticating && children}
         </AuthContext.Provider>
     )
 

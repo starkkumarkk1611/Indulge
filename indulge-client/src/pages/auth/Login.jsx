@@ -4,6 +4,7 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import "./loginSignup.css";
 import ismLogo from "../../assets/image/ISMLogo.png";
 import ismSideLogo from "../../assets/image/ismSideLogo.png";
+import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
   const emailRef = useRef();
@@ -12,32 +13,22 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   console.log(type);
-
+  const { login } = useAuth();
   const handleLoginIn = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     console.log("oos");
-    // signInEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-    //   .then((res) => {
-    //     setShowAuthFormModal(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     try {
-    //       console.log(error.response)
-    //       if (error.response) {
-    //         if (error.response.data.message === "User not found in database") {
-    //           return setShowTagSelection(true);
-    //         }
-    //         setError("Login Fails");
-    //       }
-    //     } catch { }
-    //     try {
-    //       console.log(error.code)
-    //       if (error.code) setError(error.code);
-    //     } catch { }
-    //   });
+    try {
+      await login({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+        type: type,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     setLoading(false);
   };
   if (type === "recruiter" || type === "student" || type === "admin")

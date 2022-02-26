@@ -26,5 +26,20 @@ export const registerApi = ({ email, name, type, password, repeatPassword, compa
     })
 }
 export const loginApi = ({ email, password, type }) => {
+    const body = JSON.stringify({ email, type, password });
+    return serverBaseURL.post(`/api/auth/login/${type}`, body, {
+        withCredentials: true,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+}
 
+export const renewAccessTokenApi = () => {
+    return serverBaseURL.get(`/api/auth/renew-access-token`, {
+        withCredentials: true,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
 }
