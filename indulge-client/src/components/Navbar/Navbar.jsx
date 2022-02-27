@@ -12,7 +12,7 @@ import {
   Button,
 } from "react-bootstrap";
 
-const Navbar = () => {
+const Navbar = ({ navitem, navName }) => {
   const { user, logout } = useAuth();
   console.log(user);
   const handleLogout = async () => {
@@ -36,7 +36,7 @@ const Navbar = () => {
                 flexDirection: "column",
               }}
             >
-              <h4 style={{ margin: "0" }}>CDC, IIT(ISM) DHANBAD</h4>
+              <h4 style={{ margin: "0" }}>{navName}</h4>
               <p style={{ fontSize: "0.9em", margin: "0" }}>
                 Legacy that inspires the future
               </p>
@@ -59,9 +59,11 @@ const Navbar = () => {
               alignItems: "center",
             }}
           >
-            <Nav.Link href="#overview">OVERVIEW</Nav.Link>
-            <Nav.Link href="#why-iit-ism">WHY IIT(ISM)</Nav.Link>
-            <Nav.Link href="#about">ABOUT US</Nav.Link>
+            {
+              navitem.map(({ label, href }) => (
+                <Nav.Link href={`${href}`}>{label}</Nav.Link>
+              ))
+            }
             {user && (
               <div
                 style={{

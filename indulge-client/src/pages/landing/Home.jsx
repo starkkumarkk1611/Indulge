@@ -6,7 +6,7 @@ import "./Home.css";
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar navName="CDC, IIT(ISM) DHANBAD" navitem={[{ label: "OVERVIEW", href: "#overview" }, { label: "WHY IIT (ISM)", href: "#why-iitism" }, { label: "ABOUT US", href: "#about-us" }]} />
       <div id="heritage">
         <div id="page">
           <div id="text">
