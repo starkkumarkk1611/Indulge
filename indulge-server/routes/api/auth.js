@@ -124,16 +124,16 @@ router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
             password: hashedPassword
         });
         const savedUser = await userTosave.save();
-
-        const [token, refreshToken] = await createAuthTokens({ user: { _id: userInDb._id, email: userInDb.email, name: userInDb.name, company: userInDb.company }, secret: process.env.ACCESS_TOKEN_SECRET, secret2: process.env.REFRESH_TOKEN_SECRET + userInDb.password });
-
+        console.log(savedUser);
+        const [token, refreshToken] = await createAuthTokens({ user: { _id: savedUser._id, email: savedUser.email, name: savedUser.name, company: savedUser.company }, secret: process.env.ACCESS_TOKEN_SECRET, secret2: process.env.REFRESH_TOKEN_SECRET + savedUser.password });
+        console.log(token, refreshToken);
         res.cookie('refresh_token', refreshToken, {
             maxAge: 86_400_000,
             httpOnly: true,
         });
 
         res.header('refresh-token', refreshToken);
-        res.header('auth-token', token).send({ status: "Success", payload: { user: { _id: userInDb._id, type: userInDb.type, email: userInDb.email, company: userInDb.company, accessToken: token, refreshToken: refreshToken } } });
+        res.header('auth-token', token).send({ status: "Success", payload: { user: { _id: savedUser._id, type: savedUser.type, email: savedUser.email, company: savedUser.company, accessToken: token, refreshToken: refreshToken } } });
 
     } catch (error) {
         console.log(error);
@@ -212,7 +212,7 @@ router.get('/renew-access-token', async (req, res, next) => {
 
 })
 
-router.get('/logout', verifyXXtoken, (req, res, next) => {
+router.get('/logout', (req, res, next) => {
     try {
         res.clearCookie('refresh_token');
         console.log("loged out");

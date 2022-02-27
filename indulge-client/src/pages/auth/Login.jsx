@@ -14,7 +14,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   console.log(type);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const handleLoginIn = async (e) => {
     e.preventDefault();
     setError("");
@@ -26,13 +26,14 @@ const Login = () => {
         password: passwordRef.current.value,
         type: type,
       });
-      navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
+      setError(error.response.data.message);
     }
 
     setLoading(false);
   };
+  if (user) return <Navigate to="/" />;
   if (type === "recruiter" || type === "student" || type === "admin")
     return (
       <div className="login-container">
@@ -55,7 +56,7 @@ const Login = () => {
               className="login-form"
               onSubmit={handleLoginIn}
             >
-              <div>{error ? error : ""}</div>
+              <div className="text-danger">{error ? error : ""}</div>
               <div className="label-input-group">
                 <input
                   placeholder="Email Address"

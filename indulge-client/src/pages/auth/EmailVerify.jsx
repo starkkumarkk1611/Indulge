@@ -30,10 +30,8 @@ const EmailVerify = () => {
           setIsVerified(true);
           console.log(res.data.payload.email);
         }
-        alert("success");
         setLoading(false);
       } catch (error) {
-        alert("fali");
         console.log(error);
         setLoading(false);
       }

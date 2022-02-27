@@ -6,7 +6,9 @@ import EmailVerify from "./pages/auth/EmailVerify";
 import Signup from "./pages/auth/Signup";
 import { AuthProvider } from "./hooks/useAuth";
 import RegistrationForm from "./pages/auth/RegistrationForm";
-
+import AdminPortal from "./pages/landing/AdminPortal";
+import StudentPortal from "./pages/landing/StudentPortal";
+import RecruiterPortal from "./pages/landing/RecruiterPortal";
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
           <Route path="/auth/signup/:type" element={<Signup />} />
           <Route path="/auth/:type/verify/:token" element={<EmailVerify />} />
           <Route path="/auth/registration" element={<RegistrationForm />} />
+          <Route path="/recruiter" element={<RecruiterPortal />} />
+          <Route path="/student" element={<StudentPortal />} />
+          <Route path="/admin" element={<AdminPortal />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

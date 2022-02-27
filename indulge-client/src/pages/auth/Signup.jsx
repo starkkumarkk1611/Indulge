@@ -43,7 +43,7 @@ const Signup = () => {
       }
     } catch (error) {
       console.log(error.response);
-      setError("Some Error Occured");
+      setError(error.response.data.message);
     }
 
     setLoading(false);
