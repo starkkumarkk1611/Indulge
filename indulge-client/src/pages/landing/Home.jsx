@@ -10,23 +10,21 @@ const Home = () => {
       <div id="heritage">
         <div id="page">
           <div id="text">
-            <h1>
-              A ONE STOP PORTAL
-              <br /> FOR PLACEMENTS AT
-              <br />
-              IIT(ISM) DHANBAD
-            </h1>
+            A ONE STOP PORTAL
+            <br /> FOR PLACEMENTS AT
+            <br />
+            IIT(ISM) DHANBAD
           </div>
           <div id="login">
-            <div className="logIn" id="login-student">
-              <Link to="/auth/login/student">Login As Student</Link>
-            </div>
-            <div className="logIn" id="login-recruiter">
-              <Link to="/auth/login/recruiter">Login As Recruiter</Link>
-            </div>
-            <div className="logIn" id="login-admin">
-              <Link to="/auth/login/admin">Login As Admin</Link>
-            </div>
+            <Link to="/auth/login/student">
+              <div id="login-student">Login As Student</div>
+            </Link>
+            <Link to="/auth/login/recruiter">
+              <div id="login-student">Login As Recruiter</div>
+            </Link>
+            <Link to="/auth/login/admin">
+              <div id="login-student">Login As Admin</div>
+            </Link>
           </div>
         </div>
       </div>

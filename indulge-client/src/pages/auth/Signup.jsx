@@ -52,7 +52,12 @@ const Signup = () => {
   if (type === "recruiter" || type === "student")
     return (
       <div className="login-container">
-        <Link to="/">Home</Link>
+        <Link to="/">
+          <div className="login-footer-logo">
+            <img height={120} src={ismLogo} alt="" />
+            <img height={80} src={ismSideLogo} alt="" />
+          </div>
+        </Link>
         <div className="side-login-form">
           <div className="login-form-container">
             <img src={ismLogo} height="120rem" alt="" />
@@ -111,10 +116,6 @@ const Signup = () => {
             Already user?
             <Link to={`/auth/login/${type}`}>Log In </Link>
           </div>
-        </div>
-        <div className="login-footer-logo">
-          <img height={120} src={ismLogo} alt="" />
-          <img height={80} src={ismSideLogo} alt="" />
         </div>
       </div>
     );

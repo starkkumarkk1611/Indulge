@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
 // import { ToggleButton } from "../../components/Button";
 import "./loginSignup.css";
 import ismLogo from "../../assets/image/ISMLogo.png";
@@ -9,6 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  let navigate = useNavigate();
   const { type } = useParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ const Login = () => {
         password: passwordRef.current.value,
         type: type,
       });
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +36,12 @@ const Login = () => {
   if (type === "recruiter" || type === "student" || type === "admin")
     return (
       <div className="login-container">
-        <Link to="/">Home</Link>
+        <Link to="/">
+          <div className="login-footer-logo">
+            <img height={120} src={ismLogo} alt="" />
+            <img height={80} src={ismSideLogo} alt="" />
+          </div>
+        </Link>
         <div className="side-login-form">
           <div className="login-form-container">
             <img src={ismLogo} height="120rem" alt="" />
@@ -108,10 +115,6 @@ const Login = () => {
               <Link to={`/auth/signup/${type}`}>Sign Up </Link>
             </div>
           )}
-        </div>
-        <div className="login-footer-logo">
-          <img height={120} src={ismLogo} alt="" />
-          <img height={80} src={ismSideLogo} alt="" />
         </div>
       </div>
     );

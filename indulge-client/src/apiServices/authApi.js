@@ -43,3 +43,11 @@ export const renewAccessTokenApi = () => {
         },
     })
 }
+export const logoutApi = () => {
+    return serverBaseURL.get('/api/auth/logout', {
+        withCredentials: true,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+}

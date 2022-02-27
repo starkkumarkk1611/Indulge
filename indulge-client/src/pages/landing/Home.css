@@ -11,17 +11,19 @@
 #page {
   display: flex;
   width: 100vw;
-  /* border: 2px solid blue; */
+  /* border: 2px solid #01418b; */
+  padding: 6rem 0;
   background-color: rgba(255, 255, 255, 0.8);
   /* opacity: 0.8; */
   margin: 2rem;
   border-radius: 2rem;
+  flex-wrap: wrap;
 }
 #login {
   display: flex;
   flex-direction: column;
   flex: 1;
-  /* border:2px solid red; */
+  /* border: 2px solid red; */
   align-items: center;
   justify-content: space-around;
 }
@@ -29,31 +31,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2.3rem;
+  font-weight: 650;
+  color: #01418b;
+  padding-left: 2rem;
   flex: 1;
-  /* border:2px solid red; */
+  /* border: 2px solid red; */
 }
-#text {
-  padding: 0rem 8rem;
-}
-.logIn {
-  /* border: 2px solid blue; */
-  background-color: #01418b;
-  padding: 1.5rem 3rem;
-  border-radius: 1rem;
-  margin: 1rem;
-  opacity: 1;
 
-  /* z-index: -5; */
-}
-.logIn a {
+#login a {
   text-decoration: none;
-  font-size: large;
+  min-width: max-content;
+  width: 50%;
+  flex: 1;
+  white-space: nowrap;
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem;
   color: white;
-
-  font-weight: 700;
+  background-color: #01418b;
+}
+#login a:hover {
+  background-color: #01418b8e;
+  color: #01418b;
 }
 
 #cards {
   width: 100vw;
   background-color: #e5e5e5;
+  border: 2px solid pink;
 }

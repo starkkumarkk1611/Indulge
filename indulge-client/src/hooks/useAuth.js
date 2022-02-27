@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 
-import { sendComfirmEmailApi, verifyEmailApi, registerApi, loginApi, renewAccessTokenApi } from "../apiServices/authApi";
+import { sendComfirmEmailApi, verifyEmailApi, registerApi, loginApi, renewAccessTokenApi, logoutApi } from "../apiServices/authApi";
 
 
 
@@ -35,17 +35,21 @@ export const AuthProvider = ({ children }) => {
             return true;
         })
     }
-
+    const logout = () => {
+        return logoutApi().then(res => {
+            console.log(res.data);
+            setUser(null);
+        })
+    }
     useEffect(() => {
         const renewTokens = async () => {
             try {
-
                 const res = await renewAccessTokenApi();
                 console.log(res.data)
                 setUser(res.data.payload.user);
                 setInterval(() => {
                     renewTokens();
-                }, 1000 * 60 * 10);
+                }, 1000 * 60 * 9);
             } catch (error) {
                 console.log(error);
                 setUser(null);
@@ -60,9 +64,8 @@ export const AuthProvider = ({ children }) => {
         verifyEmail,
         register,
         login,
+        logout,
         user,
-        isAuthenticating,
-
     }
 
     return (

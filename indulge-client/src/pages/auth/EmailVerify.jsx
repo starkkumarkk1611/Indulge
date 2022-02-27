@@ -49,8 +49,7 @@ const EmailVerify = () => {
       state={{ email, isVerified, type, registerToken }}
     />
   ) : (
-    // <Navigate to="/" />
-    <div>Fails</div>
+    <Navigate to="/" />
   );
 };
 

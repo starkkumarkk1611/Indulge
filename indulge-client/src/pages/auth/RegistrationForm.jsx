@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const RecruiterRegistrationForm = ({ email, registerToken }) => {
   const [error, setError] = useState("");
   const { register } = useAuth();
+  let navigate = useNavigate();
 
   const nameRef = useRef();
   const companyRef = useRef();
@@ -14,6 +15,7 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(
       companyRef.current.value,
       passwordRef.current.value,
@@ -32,8 +34,12 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
         registerToken: registerToken,
       });
       console.log(res);
+      setLoading(false);
+      navigate("/");
     } catch (error) {
       console.log(error.response);
+      setError(error.response.message);
+      setLoading(false);
     }
   };
   return (
@@ -119,6 +125,7 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
 const StudentRegistrationForm = ({ email, registerToken }) => {
   const [error, setError] = useState("");
   const { register } = useAuth();
+  let navigate = useNavigate();
 
   const nameRef = useRef();
   const passwordRef = useRef();
@@ -127,12 +134,6 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(
-      passwordRef.current.value,
-      repeatPasswordRef.current.value,
-      nameRef.current.value,
-      email
-    );
     try {
       const res = await register({
         email: email,
@@ -144,8 +145,11 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
       });
       console.log(res);
       setLoading(false);
+      navigate("/");
     } catch (error) {
       console.log(error.response);
+      setError(error.response.message);
+      setLoading(false);
     }
   };
   return (
