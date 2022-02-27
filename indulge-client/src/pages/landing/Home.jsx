@@ -31,47 +31,87 @@ const Home = () => {
       <div id="card-container">
         <div className="first_part">
           <div className="first_p">
-            <h4 class="heading">Students@IITISM</h4>
-            <p className="para">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sequi recusandae iure porro voluptates, commodi quisquam provident numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla aliquid porro! Magni, rerum ipsam.</p>
+            <h4 className="heading">Students@IITISM</h4>
+            <p className="para">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              sequi recusandae iure porro voluptates, commodi quisquam provident
+              numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla
+              aliquid porro! Magni, rerum ipsam.
+            </p>
           </div>
           <div className="first_p">
-            <h4 class="heading">Students@IITISM</h4>
-            <p className="para">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sequi recusandae iure porro voluptates, commodi quisquam provident numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla aliquid porro! Magni, rerum ipsam.</p>
+            <h4 className="heading">Students@IITISM</h4>
+            <p className="para">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              sequi recusandae iure porro voluptates, commodi quisquam provident
+              numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla
+              aliquid porro! Magni, rerum ipsam.
+            </p>
           </div>
           <div className="first_p">
-            <h4 class="heading">Students@IITISM</h4>
-            <p className="para">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sequi recusandae iure porro voluptates, commodi quisquam provident numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla aliquid porro! Magni, rerum ipsam.</p>
+            <h4 className="heading">Students@IITISM</h4>
+            <p className="para">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              sequi recusandae iure porro voluptates, commodi quisquam provident
+              numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla
+              aliquid porro! Magni, rerum ipsam.
+            </p>
           </div>
         </div>
         <h1 id="se">TAKE PART IN THE LEGACY OF IIT(ISM) DHANBAD</h1>
         <div className="first_part">
           <div className="first_p">
-            <h4 class="heading">Students@IITISM</h4>
-            <p className="para">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sequi recusandae iure porro voluptates, commodi quisquam provident numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla aliquid porro! Magni, rerum ipsam.</p>
+            <h4 className="heading">Students@IITISM</h4>
+            <p className="para">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              sequi recusandae iure porro voluptates, commodi quisquam provident
+              numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla
+              aliquid porro! Magni, rerum ipsam.
+            </p>
           </div>
           <div className="first_p">
-            <h4 class="heading" >Students@IITISM</h4>
-            <p className="para">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sequi recusandae iure porro voluptates, commodi quisquam provident numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla aliquid porro! Magni, rerum ipsam.</p>
+            <h4 className="heading">Students@IITISM</h4>
+            <p className="para">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              sequi recusandae iure porro voluptates, commodi quisquam provident
+              numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla
+              aliquid porro! Magni, rerum ipsam.
+            </p>
           </div>
           <div className="first_p">
-            <h4 class="heading">Students@IITISM</h4>
-            <p className="para">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sequi recusandae iure porro voluptates, commodi quisquam provident numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla aliquid porro! Magni, rerum ipsam.</p>
+            <h4 className="heading">Students@IITISM</h4>
+            <p className="para">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              sequi recusandae iure porro voluptates, commodi quisquam provident
+              numquam cupiditate? Sunt delectus possimus voluptatem, ipsum nulla
+              aliquid porro! Magni, rerum ipsam.
+            </p>
           </div>
         </div>
       </div>
       <div id="segment">
         <div id="first">
-          <h1>OUR STATS <br /> (2021-2022)</h1>
+          <h1>
+            OUR STATS <br /> (2021-2022)
+          </h1>
         </div>
         <div id="second">
           <div className="route">
-            <h1>920+ <br />TOTAL OFFER <br /> RECEIVED</h1>
+            <h1>
+              920+ <br />
+              TOTAL OFFER <br /> RECEIVED
+            </h1>
           </div>
           <div className="route">
-            <h1>520+  <br />TOTAL INTERNSHIP <br /> RECEIVED</h1>
+            <h1>
+              520+ <br />
+              TOTAL INTERNSHIP <br /> RECEIVED
+            </h1>
           </div>
           <div className="route">
-            <h1>220+  <br /> COMPANIES  <br /> PARTICIPATED</h1>
+            <h1>
+              220+ <br /> COMPANIES <br /> PARTICIPATED
+            </h1>
           </div>
         </div>
       </div>
@@ -79,11 +119,8 @@ const Home = () => {
         <h1>Past Recruiters</h1>
       </div>
 
-
-      <div id="company">
-
-      </div>
-    </div >
+      <div id="company"></div>
+    </div>
   );
 };
 

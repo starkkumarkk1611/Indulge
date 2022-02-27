@@ -9,7 +9,6 @@ import { useAuth } from "../../hooks/useAuth";
 const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
-  let navigate = useNavigate();
   const { type } = useParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,7 +32,7 @@ const Login = () => {
 
     setLoading(false);
   };
-  if (user) return <Navigate to="/" />;
+  if (user) return <Navigate to={`/${type}`} />;
   if (type === "recruiter" || type === "student" || type === "admin")
     return (
       <div className="login-container">

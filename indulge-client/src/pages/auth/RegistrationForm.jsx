@@ -35,7 +35,7 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
       });
       console.log(res);
       setLoading(false);
-      navigate("/");
+      navigate(`/recruiter`);
     } catch (error) {
       console.log(error.response);
       setError(error.response.message);
@@ -145,7 +145,7 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
       });
       console.log(res);
       setLoading(false);
-      navigate("/");
+      navigate("/student");
     } catch (error) {
       console.log(error.response);
       setError(error.response.message);
