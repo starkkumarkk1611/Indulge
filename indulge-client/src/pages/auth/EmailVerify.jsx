@@ -8,7 +8,7 @@ const Verifying = () => {
 
 const EmailVerify = () => {
   const { type, token } = useParams();
-  const { verifyEmail } = useAuth();
+  const { verifyEmail, user } = useAuth();
   const [isVerified, setIsVerified] = useState(false);
   const [email, setEmail] = useState("");
   const [registerToken, setRegisterToken] = useState("");
@@ -39,6 +39,7 @@ const EmailVerify = () => {
     callVerifyEmail();
   }, []);
 
+  if (user) return <Navigate to={`/${user.type}`} />;
   return loading ? (
     <Verifying />
   ) : isVerified ? (

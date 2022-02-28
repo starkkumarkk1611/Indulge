@@ -59,11 +59,11 @@ const Navbar = ({ navitem, navName }) => {
               alignItems: "center",
             }}
           >
-            {
-              navitem.map(({ label, href }) => (
-                <Nav.Link href={`${href}`}>{label}</Nav.Link>
-              ))
-            }
+            {navitem.map(({ label, href }, index) => (
+              <Nav.Link key={index} href={`${href}`}>
+                {label}
+              </Nav.Link>
+            ))}
             {user && (
               <div
                 style={{

@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 const RecruiterRegistrationForm = ({ email, registerToken }) => {
   const [error, setError] = useState("");
-  const { register } = useAuth();
+  const { register, user } = useAuth();
   let navigate = useNavigate();
 
   const nameRef = useRef();
@@ -34,14 +34,14 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
         registerToken: registerToken,
       });
       console.log(res);
-      setLoading(false);
       navigate(`/recruiter`);
     } catch (error) {
       console.log(error.response);
-      setError(error.response.message);
+      setError(error.response.data.message);
       setLoading(false);
     }
   };
+
   return (
     <div>
       <form
@@ -144,11 +144,10 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
         registerToken: registerToken,
       });
       console.log(res);
-      setLoading(false);
       navigate("/student");
     } catch (error) {
       console.log(error.response);
-      setError(error.response.message);
+      setError(error.response.data.message);
       setLoading(false);
     }
   };
@@ -225,8 +224,9 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
 
 const RegistrationForm = () => {
   const { state } = useLocation();
-
+  const { user } = useAuth();
   console.log(state);
+  if (user) return <Navigate to={`/${user.type}`} />;
   if (!state) return <Navigate to="/" />;
   if (!state.isVerified) return <Navigate to="/" />;
   if (!state.email) return <h1>Something Went Wrong</h1>;
