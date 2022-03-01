@@ -3,14 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import ismLogo from "../../assets/image/ISMLogo.png";
 import "./Navbar.css";
 import { useAuth } from "../../hooks/useAuth";
-import {
-  Navbar as ReactNavbar,
-  Container,
-  Nav,
-  NavDropdown,
-  Dropdown,
-  Button,
-} from "react-bootstrap";
+import { Navbar as ReactNavbar, Container, Nav, Button } from "react-bootstrap";
 
 const Navbar = ({ navitem, navName }) => {
   const { user, logout } = useAuth();

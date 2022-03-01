@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import { useAuth } from "../../hooks/useAuth";
+import Navbar from "../../../components/Navbar/Navbar";
+import { useAuth } from "../../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import "./StudentPortal.css";
 
@@ -30,7 +30,7 @@ const StudentPortal = () => {
         </div>
       </div>
 
-      <div class="pipe"></div>
+      <div className="pipe"></div>
 
       <div id="mid-page">
         <h1 id="head">UPCOMING JOBS/INTERN</h1>
@@ -58,7 +58,7 @@ const StudentPortal = () => {
           </div>
         </div>
       </div>
-      <div class="pipe"></div>
+      <div className="pipe"></div>
     </div>
   );
 };

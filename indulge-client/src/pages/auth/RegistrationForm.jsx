@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 const RecruiterRegistrationForm = ({ email, registerToken }) => {
   const [error, setError] = useState("");
-  const { register, user } = useAuth();
+  const { register } = useAuth();
   let navigate = useNavigate();
 
   const nameRef = useRef();
@@ -34,7 +34,7 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
         registerToken: registerToken,
       });
       console.log(res);
-      navigate(`/recruiter`);
+      navigate(`/`);
     } catch (error) {
       console.log(error.response);
       setError(error.response.data.message);
@@ -226,7 +226,7 @@ const RegistrationForm = () => {
   const { state } = useLocation();
   const { user } = useAuth();
   console.log(state);
-  if (user) return <Navigate to={`/${user.type}`} />;
+  if (user) return <Navigate to={`/`} />;
   if (!state) return <Navigate to="/" />;
   if (!state.isVerified) return <Navigate to="/" />;
   if (!state.email) return <h1>Something Went Wrong</h1>;

@@ -1,15 +1,19 @@
 import React from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import { Link, Navigate } from "react-router-dom";
+import Navbar from "../../../components/Navbar/Navbar";
+import { Link } from "react-router-dom";
 import "./Home.css";
-import { useAuth } from "../../hooks/useAuth";
 
 const Home = () => {
-  const { user } = useAuth();
-  if (user) return <Navigate to={`/${user.type}`} />;
   return (
     <div>
-      <Navbar navName="CDC, IIT(ISM) DHANBAD" navitem={[{ label: "OVERVIEW", href: "#overview" }, { label: "WHY IIT (ISM)", href: "#why-iitism" }, { label: "ABOUT US", href: "#about-us" }]} />
+      <Navbar
+        navName="CDC, IIT(ISM) DHANBAD"
+        navitem={[
+          { label: "OVERVIEW", href: "#overview" },
+          { label: "WHY IIT (ISM)", href: "#why-iitism" },
+          { label: "ABOUT US", href: "#about-us" },
+        ]}
+      />
       <div id="heritage">
         <div id="page">
           <div id="text">

@@ -1,0 +1,83 @@
+#mainpage {
+  background-image: linear-gradient(
+      rgba(255, 254, 254, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../../assets/image/heritage.png");
+  width: 100vw;
+  height: 90vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  flex-direction: row;
+}
+#partone {
+  flex: 6;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#parttwo {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+#bro {
+  margin-top: 4rem;
+}
+.parttwoone {
+  background-color: #01418b;
+  white-space: nowrap;
+  margin: 1rem;
+  padding: 1rem;
+  min-width: fit-content;
+  width: 50%;
+  text-align: center;
+  color: white;
+}
+
+.pipe {
+  background-color: #01418b;
+  width: 100%;
+  height: 1rem;
+}
+
+#mid-page {
+  background-color: #e5e5e5;
+  display: flex;
+  flex-direction: column;
+}
+#head {
+  text-align: center;
+
+  padding: 3rem 2rem;
+}
+#search-bar {
+  width: 20%;
+  background-color: white;
+  padding: 0rem 0rem;
+  margin-left: 5.5rem;
+  border-radius: 10px;
+  padding: 0.6rem 0.5rem;
+}
+#section {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  padding: 2rem 0rem;
+  height: 70%;
+}
+.news {
+  width: 80%;
+  margin: 2rem 0rem;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+}

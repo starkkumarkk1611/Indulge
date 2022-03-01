@@ -1,10 +1,6 @@
 import React from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { Navigate } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../../components/Navbar/Navbar";
 const AdminPortal = () => {
-  const { user } = useAuth();
-  if (user?.type !== "admin") return <Navigate to="/" />;
   return (
     <div>
       <Navbar

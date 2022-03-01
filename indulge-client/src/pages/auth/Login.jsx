@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 // import { ToggleButton } from "../../components/Button";
 import "./loginSignup.css";
 import ismLogo from "../../assets/image/ISMLogo.png";
@@ -32,7 +32,7 @@ const Login = () => {
 
     setLoading(false);
   };
-  if (user) return <Navigate to={`/${type}`} />;
+  if (user) return <Navigate to={`/`} />;
   if (type === "recruiter" || type === "student" || type === "admin")
     return (
       <div className="login-container">

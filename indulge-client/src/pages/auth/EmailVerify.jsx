@@ -39,7 +39,7 @@ const EmailVerify = () => {
     callVerifyEmail();
   }, []);
 
-  if (user) return <Navigate to={`/${user.type}`} />;
+  if (user) return <Navigate to={`/`} />;
   return loading ? (
     <Verifying />
   ) : isVerified ? (
