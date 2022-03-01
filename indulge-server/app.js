@@ -11,6 +11,12 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/api/auth');
+const adminRouter = require('./routes/api/admin');
+const studentRouter = require('./routes/api/student');
+const recruiterRouter = require('./routes/api/recruiter');
+
+
+
 
 dotenv.config();
 
