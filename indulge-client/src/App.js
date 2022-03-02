@@ -18,7 +18,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={user?.type === "recruiter" ? <RecruiterPortal /> : user?.type === "student" ? <StudentPortal /> : user?.type === "admin" ? <AdminPortal /> : <Home />} />
+        <Route path="/" element={<RecruiterPortal />} />
+        {/* <Route path="/" element={user?.type === "recruiter" ? <RecruiterPortal /> : user?.type === "student" ? <StudentPortal /> : user?.type === "admin" ? <AdminPortal /> : <Home />} /> */}
         <Route path="auth/login/:type" element={<Login />} />
         <Route path="auth/signup/:type" element={<Signup />} />
         <Route path="auth/:type/verify/:token" element={<EmailVerify />} />
