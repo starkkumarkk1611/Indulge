@@ -122,10 +122,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div id="past">
-        <h1>Past Recruiters</h1>
-      </div>
-
       <div id="company"></div>
     </div>
   );

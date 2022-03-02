@@ -8,6 +8,7 @@ export const sendComfirmEmailApi = ({ email, type }) => {
         },
     })
 }
+
 export const verifyEmailApi = ({ token, type }) => {
     const body = JSON.stringify({ token, type })
     return serverBaseURL.post('/api/auth/verify-mail', body, {

@@ -7,7 +7,6 @@ const confirmEmailValidation = (data) => {
     return userSchemeValidation.validate(data);
 }
 const registrationValidation = (data) => {
-    console.log(data);
     const userSchemeValidation = Joi.object({
         email: Joi.string().min(6).max(50).email().required(),
         type: Joi.string().valid('student', 'recruiter').required(),
@@ -21,7 +20,6 @@ const registrationValidation = (data) => {
     return userSchemeValidation.validate(data);
 }
 const loginValidation = (data) => {
-    console.log(data);
     const userSchemeValidation = Joi.object({
         email: Joi.string().min(6).max(50).email().required(),
         type: Joi.string().valid('student', 'recruiter', 'admin').required(),

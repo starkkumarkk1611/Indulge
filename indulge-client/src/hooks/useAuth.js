@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
                     renewTokens();
                 }, 1000 * 60 * 9);
             } catch (error) {
-                console.log(error);
                 setUser(null);
             }
             setIsAuthenticating(false);

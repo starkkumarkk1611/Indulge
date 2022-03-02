@@ -29,19 +29,20 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
       });
       navigate(`/`);
     } catch (error) {
-      console.log(error.response);
       setError(error.response.data.message);
       setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div className="register">
+      <h1>Register</h1>
       <form
         style={{
           display: "flex",
           flexDirection: "column",
           // alignItems: "center",
+          // justifyContent: "center"
         }}
         className="login-form"
         onSubmit={handleSubmit}
@@ -138,13 +139,13 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
       });
       navigate("/student");
     } catch (error) {
-      console.log(error.response);
       setError(error.response.data.message);
       setLoading(false);
     }
   };
   return (
-    <div>
+    <div className="register">
+      <h1>Register</h1>
       <form
         style={{
           display: "flex",
@@ -217,7 +218,6 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
 const RegistrationForm = () => {
   const { state } = useLocation();
   const { user } = useAuth();
-  console.log(state);
   if (user) return <Navigate to={`/`} />;
   if (!state) return <Navigate to="/" />;
   if (!state.isVerified) return <Navigate to="/" />;

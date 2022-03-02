@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/api/auth');
-// const adminRouter = require('./routes/api/admin');
+const adminRouter = require('./routes/api/admin');
 // const studentRouter = require('./routes/api/student');
 const recruiterRouter = require('./routes/api/recruiter');
 
@@ -49,7 +49,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/recruiter', recruiterRouter);
-// app.use('/api/admin', admin);
+app.use('/api/admin', adminRouter);
 // app.use('/api/student', studentRouter);
 
 

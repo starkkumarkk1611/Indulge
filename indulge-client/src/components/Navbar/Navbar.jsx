@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import ismLogo from "../../assets/image/ISMLogo.png";
 import "./Navbar.css";
 import { useAuth } from "../../hooks/useAuth";
@@ -7,8 +7,10 @@ import { Navbar as ReactNavbar, Container, Nav, Button } from "react-bootstrap";
 
 const Navbar = ({ navitem, navName }) => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = async () => {
     await logout();
+    navigate("/");
   };
   return (
     <ReactNavbar
@@ -18,7 +20,7 @@ const Navbar = ({ navitem, navName }) => {
       variant="dark"
     >
       <Container>
-        <Link to="/">
+        <Link to="/" style={{ textDecoration: "none" }}>
           <ReactNavbar.Brand>
             <div id="main-logo">
               <img height="80px" src={ismLogo} alt="" />

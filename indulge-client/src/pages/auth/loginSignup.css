@@ -11,7 +11,14 @@
   position: fixed;
   /* z-index: -8; */
 }
-
+.register {
+  border: 2px solid rebeccapurple;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+}
 .login-footer-logo {
   display: flex;
   align-items: center;

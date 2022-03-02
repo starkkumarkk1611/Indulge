@@ -1,5 +1,9 @@
 #heritage {
-  background-image: url("../../../assets/image/heritage.png");
+  background-image: linear-gradient(
+      rgba(255, 254, 254, 0.4),
+      rgba(255, 255, 255, 0.4)
+    ),
+    url("../../../assets/image/heritage.png");
   width: 100vw;
   height: 90vh;
   background-repeat: no-repeat;
@@ -13,7 +17,7 @@
   width: 100vw;
   /* border: 2px solid #01418b; */
   padding: 6rem 0;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0);
   /* opacity: 0.8; */
   margin: 2rem;
   border-radius: 2rem;
@@ -83,8 +87,12 @@
   border-radius: 15px;
 }
 #segment {
-  border: 2px solid red;
-  background-image: url("../../../assets/image/side.png");
+  /* border: 2px solid red; */
+  background-image: linear-gradient(
+      rgba(255, 254, 254, 0.2),
+      rgba(255, 255, 255, 0.2)
+    ),
+    url("../../../assets/image/side.png");
   width: 100vw;
   height: 90vh;
   background-repeat: no-repeat;
@@ -96,16 +104,16 @@
   justify-content: space-evenly;
 }
 #first {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   text-align: center;
   margin-top: 2rem;
 }
 .route {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   text-align: center;
 }
 #second {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   display: flex;
 
   flex-direction: row;
@@ -113,13 +121,13 @@
   width: 100vw;
 }
 #past {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   text-align: center;
   padding: 2rem 2rem;
 }
 
 #company {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   background-image: url("../../../assets/company.png");
   width: 100vw;
   height: 90vh;

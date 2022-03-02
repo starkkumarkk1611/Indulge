@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Form.css";
+import Navbar from "../../../../components/Navbar/Navbar";
 
 const Inf = () => {
   const [state, setState] = useState({
@@ -116,10 +117,17 @@ const Inf = () => {
 
   const handleJnfForm = (e) => {
     e.preventDefault();
-    console.log(state);
   };
   return (
     <div className="form-page">
+      <Navbar
+        navName="RECRUITER PORTAL"
+        navitem={[
+          { label: "OVERVIEW", href: "#overview" },
+          { label: "POLICES", href: "#policies" },
+          { label: "CONTACT US", href: "#contact-us" },
+        ]}
+      />
       <h1>INTEERSHIP NOTIFICATION FORM</h1>
       <form className="form" onSubmit={handleJnfForm}>
         <div className="form-section">

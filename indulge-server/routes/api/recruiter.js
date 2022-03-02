@@ -10,9 +10,7 @@ router.post('/save-jnf', verifyXXtoken, async (req, res, next) => {
     try {
         try {
             const jnfDel = await Jnf.deleteOne({ jnfId: reqJnf.jnfId });
-            console.log("delted")
         } catch (error) {
-            console.log("not dekte")
         }
         const jnfToSave = new Jnf({
             jnfId: reqJnf.jnfId,
@@ -49,7 +47,6 @@ router.post('/save-jnf', verifyXXtoken, async (req, res, next) => {
 
         res.send({ status: "Success", payload: { jnfData: savedJnf }, message: "Saved Succesfully" })
     } catch (error) {
-        console.log(error, "SFgdfg");
         res.status(401).send({ status: "Fail", message: "Something went Wrong" });
     }
 });
@@ -57,9 +54,7 @@ router.post('/save-jnf', verifyXXtoken, async (req, res, next) => {
 router.get('/get-jnf', verifyXXtoken, async (req, res, next) => {
 
     try {
-        console.log(req.user._id)
         Jnf.find({ authorId: req.user._id }).then(result => {
-            console.log(result)
             res.send({ status: "Success", message: "Jnf Fetched", payload: { jnfs: result } })
         }).catch(err => {
             res.send(401)({
@@ -85,9 +80,7 @@ router.post('/submit-jnf', verifyXXtoken, async (req, res, next) => {
     try {
         try {
             const jnfDel = await Jnf.deleteOne({ jnfId: reqJnf.jnfId });
-            console.log("delted")
         } catch (error) {
-            console.log("not dekte")
         }
         const jnfToSave = new Jnf({
             jnfId: reqJnf.jnfId,

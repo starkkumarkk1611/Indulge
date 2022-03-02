@@ -4,17 +4,6 @@ import ismLogo from "../../assets/image/ISMLogo.png";
 import ismSideLogo from "../../assets/image/ismSideLogo.png";
 import { useAuth } from "../../hooks/useAuth";
 
-// import { ToggleButton } from "../../components/Button";
-
-// const studentAuthenticatedDomain = ["iitism.ac.in"];
-
-// const recuiterAuthenticatedDomain = [
-//   "iitism.ac.in",
-//   "google.com",
-//   "facebook.com",
-//   "microsoft.com",
-// ];
-
 const Signup = () => {
   const emailRef = useRef();
   const { sendConfirmEmail } = useAuth();
@@ -30,19 +19,16 @@ const Signup = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    console.log(emailRef.current.value);
     try {
       const res = await sendConfirmEmail({
         email: emailRef.current.value,
         type: type,
       });
-      console.log(res);
       if (res.data.status === "Success") {
         setIsMailSent(true);
         setMessage(res.data.message);
       }
     } catch (error) {
-      console.log(error.response);
       setError(error.response.data.message);
     }
 
@@ -59,7 +45,7 @@ const Signup = () => {
           </div>
         </Link>
         <div className="side-login-form">
-          <div className="login-form-container">
+          <div className="login-form-container" style={{ width: "50%" }}>
             <img src={ismLogo} height="120rem" alt="" />
             <h1> {type.toUpperCase()} SIGN UP</h1>
             {/* HOC toggle btn  */}

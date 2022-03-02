@@ -115,27 +115,22 @@ const Jnf = () => {
   useEffect(() => {
     setJnfId(uuid());
   }, []);
-  console.log(jnfId);
   const handleJnfForm = async (e) => {
     setError("");
     setMessage("");
 
     e.preventDefault();
-    console.log(state);
     try {
       const res = await saveJnfApi({
         data: { ...state, jnfId: jnfId },
         accessToken: user.accessToken,
       });
       setMessage("Saved Sucessfully Review carefully And Submit");
-      console.log("saved successfully");
       setSaved(true);
       setEdit(false);
       window.scrollTo(0, 0);
-      console.log(res.data);
     } catch (error) {
-      console.log(error.response);
-      setError("Something Went Wrong");
+      setError(error.response.data.message);
     }
   };
   const [sumbited, setSubmited] = useState(false);
@@ -147,12 +142,9 @@ const Jnf = () => {
         accessToken: user.accessToken,
       });
       setMessage("Submited sucessFully");
-      console.log("sumbited successfully");
       setSubmited(true);
       window.scrollTo(0, 0);
-      console.log(res.data);
     } catch (error) {
-      console.log(error.response);
       setError("Something Went Wrong");
     }
   };
