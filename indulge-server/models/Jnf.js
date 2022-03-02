@@ -5,6 +5,11 @@ const jnfSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    jnfId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     companyDetails: new mongoose.Schema({
         category: {
             type: String,

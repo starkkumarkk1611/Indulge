@@ -16,19 +16,16 @@ const EmailVerify = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(type, token);
     const callVerifyEmail = async () => {
       try {
         const res = await verifyEmail({
           token,
           type,
         });
-        console.log(res);
         if (res.data.status === "Success") {
           setEmail(res.data.payload.email);
           setRegisterToken(res.data.payload.registerToken);
           setIsVerified(true);
-          console.log(res.data.payload.email);
         }
         setLoading(false);
       } catch (error) {

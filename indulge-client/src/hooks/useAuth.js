@@ -24,20 +24,17 @@ export const AuthProvider = ({ children }) => {
     const register = ({ email, name, type, password, repeatPassword, company, registerToken }) => {
         return registerApi({ email, name, type, password, repeatPassword, company, registerToken }).then((res) => {
             setUser(res.data.payload.user);
-            console.log(res);
             return true;
         })
     }
     const login = ({ email, password, type }) => {
         return loginApi({ email, password, type }).then(res => {
-            console.log(res.data)
             setUser(res.data.payload.user);
             return true;
         })
     }
     const logout = () => {
         return logoutApi().then(res => {
-            console.log(res.data);
             setUser(null);
         })
     }
@@ -45,7 +42,6 @@ export const AuthProvider = ({ children }) => {
         const renewTokens = async () => {
             try {
                 const res = await renewAccessTokenApi();
-                console.log(res.data)
                 setUser(res.data.payload.user);
                 setInterval(() => {
                     renewTokens();

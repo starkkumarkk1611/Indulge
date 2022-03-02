@@ -10,7 +10,6 @@ const { verifyRegisterToken, createAuthTokens, verifyXXtoken } = require('../../
 
 
 router.post('/send-confirm-mail', async (req, res, next) => {
-    console.log(req.body);
     const { value: body, error } = confirmEmailValidation(req.body);
     if (error) return res.status(400).send({ status: "Fail", message: "Validation Error: " + error.details[0].message });
 
@@ -69,7 +68,6 @@ router.post('/send-confirm-mail', async (req, res, next) => {
 
 
 router.post('/verify-mail', async (req, res, next) => {
-    console.log(req.body);
     const { type, token } = req.body;
     if (!(type === 'student' || type === 'recruiter')) return res.status(404).send({ status: "Fail", message: "Not Found" });
     var secret;
@@ -94,7 +92,6 @@ router.post('/verify-mail', async (req, res, next) => {
         );
         res.send({ status: "Success", payload: { email, registerToken }, message: "Your Email Has been Verified" });
     } catch {
-        console.log("not verifes")
         res.status(401).send({ status: "Fail", message: "Email Not verified" });
     }
 });
@@ -104,14 +101,11 @@ router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
     if (!(type === 'student' || type === 'recruiter')) return res.status(404).send({ status: "Fail", message: "Not Found" });
     try {
         //user validation
-        console.log(req.body);
         const { value: user, error } = registrationValidation(req.body);
-        console.log("sdfgd");
         if (error) return res.status(400).send({ status: "Fail", message: "Validation Error: " + error.details[0].message });
 
         const emailExist = await User.findOne({ email: user.email });
         if (emailExist) return res.status(400).send({ status: "Fail", message: "email alredy exist!" });
-        console.log(user);
         //hashing password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(user.password, salt);
@@ -123,9 +117,7 @@ router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
             password: hashedPassword
         });
         const savedUser = await userTosave.save();
-        console.log(savedUser);
         const [token, refreshToken] = await createAuthTokens({ user: { _id: savedUser._id, email: savedUser.email, name: savedUser.name, company: savedUser.company }, secret: process.env.ACCESS_TOKEN_SECRET, secret2: process.env.REFRESH_TOKEN_SECRET + savedUser.password });
-        console.log(token, refreshToken);
         res.cookie('refresh_token', refreshToken, {
             maxAge: 86_400_000,
             httpOnly: true,
@@ -176,7 +168,6 @@ router.post('/login/:type', async (req, res, next) => {
 router.get('/renew-access-token', async (req, res, next) => {
     try {
         var refreshToken = req.cookies.refresh_token;
-        console.log(refreshToken);
         if (!refreshToken) return res.status(401).send({ status: "Fail", message: "Unauthorize acecsss" });
         const { _id } = jwt.decode(refreshToken);
 
@@ -184,7 +175,6 @@ router.get('/renew-access-token', async (req, res, next) => {
 
         const userInDb = await User.findById(_id);
         if (!userInDb) return res.status(401).send({ status: "Fail", message: "Unauthorize acecsss" });
-        console.log(userInDb)
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET + userInDb.password);
         const [newToken, newRefreshToken] = await createAuthTokens({
             user: {
@@ -192,7 +182,6 @@ router.get('/renew-access-token', async (req, res, next) => {
             }
             , secret: process.env.ACCESS_TOKEN_SECRET, secret2: process.env.REFRESH_TOKEN_SECRET + userInDb.password
         });
-        console.log(newToken, newRefreshToken);
         res.cookie('refresh_token', newRefreshToken, {
             maxAge: 86_400_000,
             httpOnly: true,
@@ -211,7 +200,6 @@ router.get('/renew-access-token', async (req, res, next) => {
 router.get('/logout', (req, res, next) => {
     try {
         res.clearCookie('refresh_token');
-        console.log("loged out");
         res.send({ status: "Success", message: "LogedOut Sucessfully" });
     } catch (error) {
         console.log(error);

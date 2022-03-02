@@ -3,25 +3,36 @@ import "./Form.css";
 import { saveJnfApi, submitJnfApi } from "../../../../apiServices/recruiterApi";
 import { useAuth } from "../../../../hooks/useAuth";
 import Navbar from "../../../../components/Navbar/Navbar";
-import { Link } from "react-router-dom";
-import { v4 as uuid } from "uuid";
-const Jnf = () => {
+import { Link, useLocation } from "react-router-dom";
+const EditJnf = () => {
   const { user } = useAuth();
-
+  const { state: jnf } = useLocation();
+  console.log(jnf);
   const [state, setState] = useState({
-    companyDetails: { name: "", website: "", category: "" },
-    jobDetails: {
-      designation: "",
-      placeOfPostioning: "",
-      desc: "",
+    companyDetails: {
+      name: jnf.companyDetails.name,
+      website: jnf.companyDetails.website,
+      category: jnf.companyDetails.category,
     },
-    saleryDetails: { ctcInLPA: "", ctcBreakup: "", bondDetails: "" },
-    eligibleCourses: { btech4year: [], mtechDual5year: [], skillBased: [] },
-
+    jobDetails: {
+      designation: jnf.jobDetails.designation,
+      placeOfPostioning: jnf.jobDetails.placeOfPostioning,
+      desc: jnf.jobDetails.desc,
+    },
+    saleryDetails: {
+      ctcInLPA: jnf.saleryDetails.ctcInLPA,
+      ctcBreakup: jnf.saleryDetails.ctcBreakup,
+      bondDetails: jnf.saleryDetails.bondDetails,
+    },
+    eligibleCourses: {
+      btech4year: jnf.eligibleCourses.btech4year,
+      mtechDual5year: jnf.eligibleCourses.mtechDual5year,
+      skillBased: jnf.eligibleCourses.skillBased,
+    },
     selectionProcedure: {
-      resumeSort: "yes",
-      typeOfTest: "technical",
-      otherQualificationRound: "gd",
+      resumeSort: jnf.selectionProcedure.resumeSort,
+      typeOfTest: jnf.selectionProcedure.typeOfTest,
+      otherQualificationRound: jnf.selectionProcedure.otherQualificationRound,
     },
   });
 
@@ -111,11 +122,7 @@ const Jnf = () => {
   const [message, setMessage] = useState("");
   const [saved, setSaved] = useState(false);
   const [edit, setEdit] = useState(true);
-  const [jnfId, setJnfId] = useState("");
-  useEffect(() => {
-    setJnfId(uuid());
-  }, []);
-  console.log(jnfId);
+
   const handleJnfForm = async (e) => {
     setError("");
     setMessage("");
@@ -124,7 +131,7 @@ const Jnf = () => {
     console.log(state);
     try {
       const res = await saveJnfApi({
-        data: { ...state, jnfId: jnfId },
+        data: { ...state, jnfId: jnf.jnfId },
         accessToken: user.accessToken,
       });
       setMessage("Saved Sucessfully Review carefully And Submit");
@@ -143,7 +150,7 @@ const Jnf = () => {
     e.preventDefault();
     try {
       const res = await submitJnfApi({
-        data: { ...state, jnfId: jnfId },
+        data: { ...state, jnfId: jnf.jnfId },
         accessToken: user.accessToken,
       });
       setMessage("Submited sucessFully");
@@ -184,6 +191,7 @@ const Jnf = () => {
               <input
                 type="text"
                 id="company-name"
+                value={state.companyDetails.name}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -204,6 +212,7 @@ const Jnf = () => {
               <input
                 type="text"
                 id="company-website"
+                value={state.companyDetails.website}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -225,6 +234,7 @@ const Jnf = () => {
                 type="text"
                 id="company-category"
                 placeholder="eg. IT,Finance Etc."
+                value={state.companyDetails.category}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -248,6 +258,7 @@ const Jnf = () => {
               <input
                 type="text"
                 id="designation"
+                value={state.jobDetails.designation}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -268,6 +279,7 @@ const Jnf = () => {
               <input
                 type="text"
                 id="posting-place"
+                value={state.jobDetails.placeOfPostioning}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -288,6 +300,7 @@ const Jnf = () => {
               <textarea
                 type="text"
                 id="description "
+                value={state.jobDetails.desc}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -309,6 +322,7 @@ const Jnf = () => {
             <div className="form-field">
               <label htmlFor="ctc">CTC in LPA</label>
               <input
+                value={state.saleryDetails.ctcInLPA}
                 type="number"
                 min="1"
                 id="ctc"
@@ -331,7 +345,8 @@ const Jnf = () => {
               <label htmlFor="ctc-breakup">CTC breakup</label>
               <textarea
                 type="text"
-                id="posting-place"
+                id="ctc-break"
+                value={state.saleryDetails.ctcBreakup}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -352,6 +367,7 @@ const Jnf = () => {
               <textarea
                 type="text"
                 id="bond"
+                value={state.saleryDetails.bondDetails}
                 onChange={(e) => {
                   setState((prev) => {
                     const newState = {
@@ -381,6 +397,7 @@ const Jnf = () => {
                     type="checkbox"
                     name=""
                     id="che"
+                    checked={state.eligibleCourses.btech4year.includes("che")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -391,6 +408,7 @@ const Jnf = () => {
                     value="ce"
                     name=""
                     id="ce"
+                    checked={state.eligibleCourses.btech4year.includes("ce")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -401,6 +419,7 @@ const Jnf = () => {
                     name=""
                     id="cse"
                     value="cse"
+                    checked={state.eligibleCourses.btech4year.includes("cse")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -411,6 +430,7 @@ const Jnf = () => {
                     name=""
                     id="ee"
                     value="ee"
+                    checked={state.eligibleCourses.btech4year.includes("ee")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -423,6 +443,7 @@ const Jnf = () => {
                     name=""
                     id="ece"
                     value="ece"
+                    checked={state.eligibleCourses.btech4year.includes("ece")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -435,6 +456,7 @@ const Jnf = () => {
                     name=""
                     id="eie"
                     value="eie"
+                    checked={state.eligibleCourses.btech4year.includes("eie")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -445,6 +467,7 @@ const Jnf = () => {
                     name=""
                     id="ep"
                     value="ep"
+                    checked={state.eligibleCourses.btech4year.includes("ep")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -455,6 +478,7 @@ const Jnf = () => {
                     name=""
                     id="eve"
                     value="eve"
+                    checked={state.eligibleCourses.btech4year.includes("eve")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -465,6 +489,7 @@ const Jnf = () => {
                     name=""
                     id="mech"
                     value="mech"
+                    checked={state.eligibleCourses.btech4year.includes("mech")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -477,6 +502,7 @@ const Jnf = () => {
                     name=""
                     id="fme"
                     value="fme"
+                    checked={state.eligibleCourses.btech4year.includes("fme")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -487,6 +513,7 @@ const Jnf = () => {
                     name=""
                     id="me"
                     value="me"
+                    checked={state.eligibleCourses.btech4year.includes("me")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -497,6 +524,7 @@ const Jnf = () => {
                     name=""
                     id="mme"
                     value="mme"
+                    checked={state.eligibleCourses.btech4year.includes("mme")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -507,6 +535,7 @@ const Jnf = () => {
                     name=""
                     id="pe"
                     value="pe"
+                    checked={state.eligibleCourses.btech4year.includes("pe")}
                     onChange={handleBtech4year}
                   />
                 </div>
@@ -523,6 +552,9 @@ const Jnf = () => {
                     name=""
                     id="5cse"
                     value="5cse"
+                    checked={state.eligibleCourses.mtechDual5year.includes(
+                      "5cse"
+                    )}
                     onChange={handleMtechDual5Year}
                   />
                 </div>
@@ -533,6 +565,9 @@ const Jnf = () => {
                     name=""
                     id="mnc"
                     value="mnc"
+                    checked={state.eligibleCourses.mtechDual5year.includes(
+                      "mnc"
+                    )}
                     onChange={handleMtechDual5Year}
                   />
                 </div>
@@ -543,6 +578,9 @@ const Jnf = () => {
                     name=""
                     id="ag"
                     value="ag"
+                    checked={state.eligibleCourses.mtechDual5year.includes(
+                      "ag"
+                    )}
                     onChange={handleMtechDual5Year}
                   />
                 </div>
@@ -553,6 +591,9 @@ const Jnf = () => {
                     name=""
                     id="agp"
                     value="agp"
+                    checked={state.eligibleCourses.mtechDual5year.includes(
+                      "agp"
+                    )}
                     onChange={handleMtechDual5Year}
                   />
                 </div>
@@ -572,6 +613,9 @@ const Jnf = () => {
                   id="skill1"
                   value="C,C++,Java,Python,etc"
                   onChange={handleSkillBased}
+                  checked={state.eligibleCourses.skillBased.includes(
+                    "C,C++,Java,Python,etc"
+                  )}
                 />
               </div>
               <div className="checkbox-form-group">
@@ -583,6 +627,9 @@ const Jnf = () => {
                   name=""
                   id="skill2"
                   value="full stack development frontend backend"
+                  checked={state.eligibleCourses.skillBased.includes(
+                    "full stack development frontend backend"
+                  )}
                   onChange={handleSkillBased}
                 />
               </div>
@@ -593,6 +640,9 @@ const Jnf = () => {
                   name=""
                   id="skill3"
                   value="AI/ML/DL/Data Science"
+                  checked={state.eligibleCourses.skillBased.includes(
+                    "AI/ML/DL/Data Science"
+                  )}
                   onChange={handleSkillBased}
                 />
               </div>
@@ -605,6 +655,9 @@ const Jnf = () => {
                   name=""
                   id="skill4"
                   value="Bussiness/Data Analysis, Product Management"
+                  checked={state.eligibleCourses.skillBased.includes(
+                    "Bussiness/Data Analysis, Product Management"
+                  )}
                   onChange={handleSkillBased}
                 />
               </div>
@@ -758,4 +811,4 @@ const Jnf = () => {
   );
 };
 
-export default Jnf;
+export default EditJnf;

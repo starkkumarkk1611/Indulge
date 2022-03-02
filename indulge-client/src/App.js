@@ -11,6 +11,7 @@ import RecruiterPortal from "./pages/landing/recruiterPortal/RecruiterPortal";
 import Jnf from "./pages/landing/recruiterPortal/forms/Jnf";
 import Inf from "./pages/landing/recruiterPortal/forms/Inf";
 import JnfInfStatus from "./pages/landing/recruiterPortal/jnfInfStatus/JnfInfStatus";
+import EditJnf from "./pages/landing/recruiterPortal/forms/EditJnf";
 import { useAuth } from "./hooks/useAuth";
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
         {user && user.type === "recruiter" && <Route path="recruiter/fill-jnf" element={<Jnf />} />}
         {user && user.type === "recruiter" && <Route path="recruiter/fill-Inf" element={<Inf />} />}
         {user && user.type === "recruiter" && <Route path="recruiter/jnf-inf-status" element={<JnfInfStatus />} />}
+        {user && user.type === "recruiter" && <Route path="recruiter/edit-jnf" element={<EditJnf />} />}
+
       </Routes>
     </BrowserRouter>
   );

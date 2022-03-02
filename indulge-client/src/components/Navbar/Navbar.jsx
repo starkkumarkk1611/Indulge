@@ -7,7 +7,6 @@ import { Navbar as ReactNavbar, Container, Nav, Button } from "react-bootstrap";
 
 const Navbar = ({ navitem, navName }) => {
   const { user, logout } = useAuth();
-  console.log(user);
   const handleLogout = async () => {
     await logout();
   };
@@ -15,27 +14,29 @@ const Navbar = ({ navitem, navName }) => {
     <ReactNavbar
       collapseOnSelect
       expand="lg"
-      style={{ backgroundColor: "#01418B" }}
+      style={{ backgroundColor: "#01418B", width: "100vw" }}
       variant="dark"
     >
       <Container>
-        <ReactNavbar.Brand href="#home">
-          <div id="main-logo">
-            <img height="80px" src={ismLogo} alt="" />
-            <div
-              style={{
-                margin: "0.6rem",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <h4 style={{ margin: "0" }}>{navName}</h4>
-              <p style={{ fontSize: "0.9em", margin: "0" }}>
-                Legacy that inspires the future
-              </p>
+        <Link to="/">
+          <ReactNavbar.Brand>
+            <div id="main-logo">
+              <img height="80px" src={ismLogo} alt="" />
+              <div
+                style={{
+                  margin: "0.6rem",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <h4 style={{ margin: "0" }}>{navName}</h4>
+                <p style={{ fontSize: "0.9em", margin: "0" }}>
+                  Legacy that inspires the future
+                </p>
+              </div>
             </div>
-          </div>
-        </ReactNavbar.Brand>
+          </ReactNavbar.Brand>
+        </Link>
 
         <ReactNavbar.Toggle aria-controls="responsive-navbar-nav" />
 

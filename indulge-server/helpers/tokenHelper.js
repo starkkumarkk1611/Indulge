@@ -8,7 +8,6 @@ const verifyXXtoken = async (req, res, next) => {
     if (!token) return res.status(401).send({ message: "something went wrong :(" });
     try {
         const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        // console.log(payload)
         var user = await User.findById(payload._id);
         req.user = user;
         next();
@@ -29,11 +28,9 @@ const createAuthTokens = async ({ user, secret, secret2 }) => {
 
 const verifyRegisterToken = async (req, res, next) => {
     const registerToken = req.header('register-token');
-    console.log(registerToken);
     if (!registerToken) return res.status(401).send({ message: "No token something went wrong :(" });
     try {
         const payload = jwt.verify(registerToken, process.env.REGISTER_TOKEN);
-        console.log(payload, "<- payload");
         req.user_email = payload.email;
         next();
     } catch (error) {

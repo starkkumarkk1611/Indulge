@@ -16,13 +16,7 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(
-      companyRef.current.value,
-      passwordRef.current.value,
-      repeatPasswordRef.current.value,
-      nameRef.current.value,
-      email
-    );
+
     try {
       const res = await register({
         email: email,
@@ -33,7 +27,6 @@ const RecruiterRegistrationForm = ({ email, registerToken }) => {
         company: companyRef.current.value,
         registerToken: registerToken,
       });
-      console.log(res);
       navigate(`/`);
     } catch (error) {
       console.log(error.response);
@@ -143,7 +136,6 @@ const StudentRegistrationForm = ({ email, registerToken }) => {
         repeatPassword: repeatPasswordRef.current.value,
         registerToken: registerToken,
       });
-      console.log(res);
       navigate("/student");
     } catch (error) {
       console.log(error.response);

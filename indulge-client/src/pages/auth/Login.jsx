@@ -12,13 +12,11 @@ const Login = () => {
   const { type } = useParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log(type);
   const { login, user } = useAuth();
   const handleLoginIn = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    console.log("oos");
     try {
       await login({
         email: emailRef.current.value,
