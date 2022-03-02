@@ -115,7 +115,6 @@ router.post('/register/:type', verifyRegisterToken, async (req, res, next) => {
         //hashing password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(user.password, salt);
-
         const userTosave = new User({
             name: user.name,
             email: user.email,
@@ -180,7 +179,6 @@ router.get('/renew-access-token', async (req, res, next) => {
         console.log(refreshToken);
         if (!refreshToken) return res.status(401).send({ status: "Fail", message: "Unauthorize acecsss" });
         const { _id } = jwt.decode(refreshToken);
-        console.log(_id, "dfdfdf");
 
         if (!_id) return res.status(401).send({ status: "Fail", message: "Unauthorize acecsss" });
 
@@ -188,7 +186,6 @@ router.get('/renew-access-token', async (req, res, next) => {
         if (!userInDb) return res.status(401).send({ status: "Fail", message: "Unauthorize acecsss" });
         console.log(userInDb)
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET + userInDb.password);
-        console.log("sfgsfd");
         const [newToken, newRefreshToken] = await createAuthTokens({
             user: {
                 _id: userInDb._id, email: userInDb.email, name: userInDb.name

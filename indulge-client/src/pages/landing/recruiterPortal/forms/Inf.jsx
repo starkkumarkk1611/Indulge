@@ -4,20 +4,37 @@ import "./Form.css";
 const Inf = () => {
   const [state, setState] = useState({
     companyDetails: { name: "", website: "", category: "" },
-    jobDetails: { designation: "", placeOfPostioning: "", desc: "" },
+    internDetails: {
+      designation: "",
+      placeOfPostioning: "",
+      desc: "",
+      duration: "2 Month",
+    },
     saleryDetais: { ctcInLPA: "", ctcBreakup: "", bondDetails: "" },
     eligibleCourse: { btech4year: [], mtechDual5year: [], skillBased: [] },
     selectionProcedure: {
-      resumeSort: "",
-      typeOfTest: "",
-      otherQualificationRound: "",
+      resumeSort: "yes",
+      typeOfTest: "technical",
+      otherQualificationRound: "gd",
     },
   });
+
+  const handleDuration = (e) => {
+    setState((prev) => {
+      const newState = {
+        ...prev,
+        internDetails: {
+          ...prev.internDetails,
+          duration: e.target.value,
+        },
+      };
+      return newState;
+    });
+  };
   const handleBtech4year = (e) => {
     const tempArr = state.eligibleCourse.btech4year;
     if (e.target.checked) tempArr.push(e.target.value);
     else tempArr.splice(tempArr.indexOf(e.target.value), 1);
-    console.log(tempArr);
     setState((prev) => {
       const newState = {
         ...prev,
@@ -33,7 +50,6 @@ const Inf = () => {
     const tempArr = state.eligibleCourse.skillBased;
     if (e.target.checked) tempArr.push(e.target.value);
     else tempArr.splice(tempArr.indexOf(e.target.value), 1);
-    console.log(tempArr);
     setState((prev) => {
       const newState = {
         ...prev,
@@ -49,7 +65,6 @@ const Inf = () => {
     const tempArr = state.eligibleCourse.mtechDual5year;
     if (e.target.checked) tempArr.push(e.target.value);
     else tempArr.splice(tempArr.indexOf(e.target.value), 1);
-    console.log(tempArr);
     setState((prev) => {
       const newState = {
         ...prev,
@@ -62,14 +77,50 @@ const Inf = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  const hanldeResumeSort = (e) => {
+    setState((prev) => {
+      const newState = {
+        ...prev,
+        selectionProcedure: {
+          ...prev.selectionProcedure,
+          resumeSort: e.target.value,
+        },
+      };
+      return newState;
+    });
+  };
+  const hanldeTypeOfTest = (e) => {
+    setState((prev) => {
+      const newState = {
+        ...prev,
+        selectionProcedure: {
+          ...prev.selectionProcedure,
+          typeOfTest: e.target.value,
+        },
+      };
+      return newState;
+    });
+  };
+  const handleQualificationRound = (e) => {
+    setState((prev) => {
+      const newState = {
+        ...prev,
+        selectionProcedure: {
+          ...prev.selectionProcedure,
+          otherQualificationRound: e.target.value,
+        },
+      };
+      return newState;
+    });
+  };
 
-  const handleJnfForm = () => {};
+  const handleJnfForm = (e) => {
+    e.preventDefault();
+    console.log(state);
+  };
   return (
     <div className="form-page">
-      <h1>JOB NOTIFICATION FORM</h1>
+      <h1>INTEERSHIP NOTIFICATION FORM</h1>
       <form className="form" onSubmit={handleJnfForm}>
         <div className="form-section">
           <h2>COMPANY DETAILS</h2>
@@ -90,6 +141,7 @@ const Inf = () => {
                   return newState;
                 });
               }}
+              required
             />
           </div>
           <div className="form-field">
@@ -109,6 +161,7 @@ const Inf = () => {
                   return newState;
                 });
               }}
+              required
             />
           </div>
           <div className="form-field">
@@ -129,11 +182,12 @@ const Inf = () => {
                   return newState;
                 });
               }}
+              required
             />
           </div>
         </div>
         <div className="form-section">
-          <h2>JOB DETAILS</h2>
+          <h2>INTERNSHIP DETAILS</h2>
           <div className="form-field">
             <label htmlFor="designation">DESIGNATION</label>
             <input
@@ -143,14 +197,15 @@ const Inf = () => {
                 setState((prev) => {
                   const newState = {
                     ...prev,
-                    jobDetails: {
-                      ...prev.jobDetails,
+                    internDetails: {
+                      ...prev.internDetails,
                       designation: e.target.value,
                     },
                   };
                   return newState;
                 });
               }}
+              required
             />
           </div>
           <div className="form-field">
@@ -162,14 +217,15 @@ const Inf = () => {
                 setState((prev) => {
                   const newState = {
                     ...prev,
-                    jobDetails: {
-                      ...prev.jobDetails,
+                    inernDetails: {
+                      ...prev.internDetails,
                       placeOfPostioning: e.target.value,
                     },
                   };
                   return newState;
                 });
               }}
+              required
             />
           </div>
           <div className="form-field">
@@ -181,15 +237,54 @@ const Inf = () => {
                 setState((prev) => {
                   const newState = {
                     ...prev,
-                    jobDetails: {
-                      ...prev.jobDetails,
+                    internDetails: {
+                      ...prev.internDetails,
                       desc: e.target.value,
                     },
                   };
                   return newState;
                 });
               }}
+              required
             />
+          </div>
+          <div className="slection-item">
+            <div>DURATION</div>
+            <div className="selection-radio-container">
+              <div className="selection-radio">
+                <label htmlFor="duration2">2 Months</label>
+                <input
+                  type="radio"
+                  name="duration"
+                  id="duration2"
+                  value="2 Month"
+                  checked={state.internDetails.duration === "2 Month"}
+                  onChange={handleDuration}
+                />
+              </div>
+              <div className="selection-radio">
+                <label htmlFor="duration4">4 Month</label>
+                <input
+                  type="radio"
+                  name="duration"
+                  id="duration4"
+                  value="4 Month"
+                  checked={state.internDetails.duration === "4 Month"}
+                  onChange={handleDuration}
+                />
+              </div>
+              <div className="selection-radio">
+                <label htmlFor="duration6">6 Month</label>
+                <input
+                  type="radio"
+                  name="duration"
+                  id="duration6"
+                  value="6 Month"
+                  checked={state.internDetails.duration === "6 Month"}
+                  onChange={handleDuration}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="form-section">
@@ -198,6 +293,7 @@ const Inf = () => {
             <label htmlFor="ctc">CTC in LPA</label>
             <input
               type="number"
+              min="1"
               id="ctc"
               onChange={(e) => {
                 setState((prev) => {
@@ -211,11 +307,12 @@ const Inf = () => {
                   return newState;
                 });
               }}
+              required
             />
           </div>
           <div className="form-field">
             <label htmlFor="ctc-breakup">CTC breakup</label>
-            <input
+            <textarea
               type="text"
               id="posting-place"
               onChange={(e) => {
@@ -230,11 +327,12 @@ const Inf = () => {
                   return newState;
                 });
               }}
+              required
             />
           </div>
           <div className="form-field">
             <label htmlFor="bond">Bond Details (if Any)</label>
-            <input
+            <textarea
               type="text"
               id="bond"
               onChange={(e) => {
@@ -249,6 +347,7 @@ const Inf = () => {
                   return newState;
                 });
               }}
+              required
             />
           </div>
         </div>
@@ -497,53 +596,124 @@ const Inf = () => {
         <div className="form-section">
           <h2>SELCTION PROCEDURE</h2>
           <div className="slection-item">
-            <h4>Resume Shortlisting</h4>
+            <div>Resume Shortlisting</div>
             <div className="selection-radio-container">
               <div className="selection-radio">
                 <label htmlFor="resume-yes">Yes</label>
-                <input type="radio" name="resume-sort" id="resume-yes" />
+                <input
+                  type="radio"
+                  name="resume-sort"
+                  value="yes"
+                  id="resume-yes"
+                  checked={state.selectionProcedure.resumeSort === "yes"}
+                  onChange={hanldeResumeSort}
+                />
               </div>
               <div className="selection-radio">
                 <label htmlFor="resume-no">No</label>
-                <input type="radio" name="resume-sort" id="resume-no" />
+                <input
+                  type="radio"
+                  name="resume-sort"
+                  value="no"
+                  id="resume-no"
+                  checked={state.selectionProcedure.resumeSort === "no"}
+                  onChange={hanldeResumeSort}
+                />
               </div>
             </div>
           </div>
           <div className="slection-item">
-            <h4>Type of Test</h4>
+            <div>Type of Test</div>
             <div className="selection-radio-container">
               <div className="selection-radio">
                 <label htmlFor="tyt-tech">Technical</label>
-                <input type="radio" name="tyt" id="tyt-tech" />
+                <input
+                  type="radio"
+                  name="tyt"
+                  id="tyt-tech"
+                  value="technical"
+                  checked={state.selectionProcedure.typeOfTest === "technical"}
+                  onChange={hanldeTypeOfTest}
+                />
               </div>
               <div className="selection-radio">
                 <label htmlFor="tyt-apt">Aptitude</label>
-                <input type="radio" name="tyt" id="tyt-apt" />
+                <input
+                  type="radio"
+                  name="tyt"
+                  id="tyt-apt"
+                  value="aptitude"
+                  checked={state.selectionProcedure.typeOfTest === "aptitude"}
+                  onChange={hanldeTypeOfTest}
+                />
               </div>
               <div className="selection-radio">
                 <label htmlFor="tyt-both">Both</label>
-                <input type="radio" name="tyt" id="tyt-both" />
+                <input
+                  type="radio"
+                  name="tyt"
+                  id="tyt-both"
+                  value="both"
+                  checked={state.selectionProcedure.typeOfTest === "both"}
+                  onChange={hanldeTypeOfTest}
+                />
               </div>
               <div className="selection-radio">
                 <label htmlFor="tyt-none">None</label>
-                <input type="radio" name="tyt" id="tyt-none" />
+                <input
+                  type="radio"
+                  name="tyt"
+                  id="tyt-none"
+                  value="none"
+                  checked={state.selectionProcedure.typeOfTest === "none"}
+                  onChange={hanldeTypeOfTest}
+                />
               </div>
             </div>
           </div>
           <div className="slection-item">
-            <h4>Other Qualification Round</h4>
+            <div>Other Qualification Round</div>
             <div className="selection-radio-container">
               <div className="selection-radio">
                 <label htmlFor="other-gd">GD</label>
-                <input type="radio" name="other" id="other-gd" />
+                <input
+                  type="radio"
+                  name="other"
+                  id="other-gd"
+                  value="gd"
+                  checked={
+                    state.selectionProcedure.otherQualificationRound === "gd"
+                  }
+                  onChange={handleQualificationRound}
+                />
               </div>
               <div className="selection-radio">
                 <label htmlFor="other-case">Case Study</label>
-                <input type="radio" name="other" id="other-case" />
+                <input
+                  type="radio"
+                  name="other"
+                  id="other-case"
+                  value="Case Study"
+                  checked={
+                    state.selectionProcedure.otherQualificationRound ===
+                    "Case Study"
+                  }
+                  onChange={handleQualificationRound}
+                />
               </div>
               <div className="selection-radio">
                 <label htmlFor="other-interview">Interview</label>
-                <input type="radio" name="other" id="other-interview" />
+                <input
+                  type="radio"
+                  name="other"
+                  id="other-interview"
+                  value="interview"
+                  checked={
+                    state.selectionProcedure.otherQualificationRound ===
+                    "interview"
+                  }
+                  onChange={handleQualificationRound}
+                />
               </div>
             </div>
           </div>

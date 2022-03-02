@@ -4,13 +4,12 @@ const User = require('../models/User');
 
 const verifyXXtoken = async (req, res, next) => {
     const token = req.header('auth-token');
-
+    // console.log(token)
     if (!token) return res.status(401).send({ message: "something went wrong :(" });
     try {
         const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
-        var user = await User.findById(payload.user._id);
-
+        // console.log(payload)
+        var user = await User.findById(payload._id);
         req.user = user;
         next();
     } catch (error) {

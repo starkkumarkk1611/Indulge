@@ -11,8 +11,8 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/api/auth');
-const adminRouter = require('./routes/api/admin');
-const studentRouter = require('./routes/api/student');
+// const adminRouter = require('./routes/api/admin');
+// const studentRouter = require('./routes/api/student');
 const recruiterRouter = require('./routes/api/recruiter');
 
 
@@ -48,6 +48,12 @@ app.use(
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/recruiter', recruiterRouter);
+// app.use('/api/admin', admin);
+// app.use('/api/student', studentRouter);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
